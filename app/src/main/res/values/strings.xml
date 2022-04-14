@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Trianglator</string>
+    <string name="label">Расчёт параметров треугольника</string>
+</resources>
