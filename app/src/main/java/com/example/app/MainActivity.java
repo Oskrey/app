@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
+import java.text.DecimalFormat;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -15,9 +17,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
+    public  String inputFine(Double db)
+    {
+        DecimalFormat decimalFormat = new DecimalFormat("#.#№##");
+        String str = decimalFormat.format(db);
+        return str;
+    }
 
     public void ButtonOnClick(View view){
-        int a, b, c, P, S;
+        double a, b, c, P, S ;
         CheckBox checkSquare = findViewById(R.id.checkBox);
         CheckBox checkPerimeter = findViewById(R.id.checkBox2);
 
@@ -32,63 +40,46 @@ public class MainActivity extends AppCompatActivity {
         if (editTextC.getText().length() == 0)
             editTextC.setText("0");
 
-        a = Integer.parseInt(editTextA.getText().toString());
-        b = Integer.parseInt(editTextB.getText().toString());
-        c = Integer.parseInt(editTextC.getText().toString());
+        a = Double.parseDouble(editTextA.getText().toString());
+        b = Double.parseDouble(editTextB.getText().toString());
+        c = Double.parseDouble(editTextC.getText().toString());
 
         Triangle triangle = new Triangle();
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(MainActivity.this);
 
         if (!checkPerimeter.isChecked() && !checkSquare.isChecked())
         {
-            alertBuilder.setMessage("Выберите операцию: найти площадь и/или периметр");
-            AlertDialog alert = alertBuilder.create();
-            alert.setTitle("Подсказка");
-            alert.show();
+            alertBuilder.setMessage("Выберите операцию: найти площадь и/или периметр").setTitle("Подсказка").show();
         }
-        else
+
+        if (!triangle.isExist(a,b,c))
         {
-            if (!triangle.Exist(a,b,c))
-            {
-                alertBuilder.setMessage("Треугольника с заданными параметрами не существует!")
-                        .setCancelable(false)
-                        .setIcon(R.drawable.triangle_error)
-                        .setPositiveButton("OK", (dialogInterface, i) -> dialogInterface.cancel());
-                AlertDialog alertDialog = alertBuilder.create();
-                alertDialog.setTitle("Ошибка");
-                alertDialog.setIcon(R.drawable.triangle_error);
-                alertDialog.show();
-            }
-
-            if (checkPerimeter.isChecked() && checkSquare.isChecked() && triangle.Exist(a,b,c))
-            {
-                P = triangle.Perimeter(a, b, c);
-                S = triangle.Square(a, b, c);
-                alertBuilder.setMessage("Периметр: "+ P +"\n"+"Площадь: "+ S);
-                AlertDialog alert = alertBuilder.create();
-                alert.setTitle("Периметр и площадь");
-                alert.show();
-            }
-            else
-            {
-                if (checkPerimeter.isChecked() && triangle.Exist(a,b,c))
-                {
-                    P = triangle.Perimeter(a, b, c);
-                    alertBuilder.setMessage("Периметр: "+ P);
-                    AlertDialog alert = alertBuilder.create();
-                    alert.setTitle("Периметр");
-                    alert.show();
-                }
-
-                if (checkSquare.isChecked() && triangle.Exist(a,b,c))
-                {
-                    S = triangle.Square(a, b, c);
-                    alertBuilder.setMessage("Площадь: "+ S);
-                    AlertDialog alert = alertBuilder.create();
-                    alert.setTitle("Площадь");
-                    alert.show();
-                }
-            }
+            alertBuilder.setMessage("Треугольника с заданными параметрами не существует!")
+                    .setCancelable(false)
+                    .setIcon(R.drawable.triangle_error)
+                    .setPositiveButton("OK", (dialogInterface, i) -> dialogInterface.cancel())
+                    .setTitle("Ошибка").setIcon(R.drawable.triangle_error).show();
         }
+
+        if (checkPerimeter.isChecked() && checkSquare.isChecked() && triangle.isExist(a,b,c))
+        {
+            P = triangle.perimeter(a, b, c);
+            S = triangle.square(a, b, c);
+            alertBuilder.setMessage("Периметр: "+ inputFine(P) +"\n"+"Площадь: "+ inputFine(S))
+                    .setTitle("Периметр и площадь").show();
+        }
+
+        if (checkPerimeter.isChecked() && triangle.isExist(a,b,c))
+        {
+            P = triangle.perimeter(a, b, c);
+            alertBuilder.setMessage("Периметр: "+ inputFine(P)).setTitle("Периметр").show();
+        }
+
+        if (checkSquare.isChecked() && triangle.isExist(a,b,c))
+        {
+            S = triangle.square(a, b, c);
+            alertBuilder.setMessage("Площадь: "+ inputFine(S)).setTitle("Площадь").show();
+        }
+
     }
 }
