@@ -46,12 +46,6 @@ public class MainActivity extends AppCompatActivity {
 
         Triangle triangle = new Triangle();
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(MainActivity.this);
-
-        if (!checkPerimeter.isChecked() && !checkSquare.isChecked())
-        {
-            alertBuilder.setMessage("Выберите операцию: найти площадь и/или периметр").setTitle("Подсказка").show();
-        }
-
         if (!triangle.isExist(a,b,c))
         {
             alertBuilder.setMessage("Треугольника с заданными параметрами не существует!")
@@ -60,8 +54,12 @@ public class MainActivity extends AppCompatActivity {
                     .setPositiveButton("OK", (dialogInterface, i) -> dialogInterface.cancel())
                     .setTitle("Ошибка").setIcon(R.drawable.triangle_error).show();
         }
+        else if (!checkPerimeter.isChecked() && !checkSquare.isChecked())
+        {
+            alertBuilder.setMessage("Выберите операцию: найти площадь и/или периметр").setTitle("Подсказка").show();
+        }
 
-        if (checkPerimeter.isChecked() && checkSquare.isChecked() && triangle.isExist(a,b,c))
+        else if (checkPerimeter.isChecked() && checkSquare.isChecked() && triangle.isExist(a,b,c))
         {
             P = triangle.perimeter(a, b, c);
             S = triangle.square(a, b, c);
@@ -69,13 +67,13 @@ public class MainActivity extends AppCompatActivity {
                     .setTitle("Периметр и площадь").show();
         }
 
-        if (checkPerimeter.isChecked() && triangle.isExist(a,b,c))
+        else if (checkPerimeter.isChecked() && triangle.isExist(a,b,c))
         {
             P = triangle.perimeter(a, b, c);
             alertBuilder.setMessage("Периметр: "+ inputFine(P)).setTitle("Периметр").show();
         }
 
-        if (checkSquare.isChecked() && triangle.isExist(a,b,c))
+        else if (checkSquare.isChecked() && triangle.isExist(a,b,c))
         {
             S = triangle.square(a, b, c);
             alertBuilder.setMessage("Площадь: "+ inputFine(S)).setTitle("Площадь").show();
