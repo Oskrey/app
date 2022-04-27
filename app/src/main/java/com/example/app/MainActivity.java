@@ -49,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
         if (!triangle.isExist(a,b,c))
         {
             alertBuilder.setMessage("Треугольника с заданными параметрами не существует!")
-                    .setCancelable(false)
                     .setIcon(R.drawable.triangle_error)
                     .setPositiveButton("OK", (dialogInterface, i) -> dialogInterface.cancel())
                     .setTitle("Ошибка").setIcon(R.drawable.triangle_error).show();
