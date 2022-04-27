@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     }
     public  String inputFine(Double db)
     {
-        DecimalFormat decimalFormat = new DecimalFormat("#.#№##");
+        DecimalFormat decimalFormat = new DecimalFormat("#.####");
         String str = decimalFormat.format(db);
         return str;
     }
